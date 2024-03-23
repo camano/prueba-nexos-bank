@@ -1,0 +1,13 @@
+server:
+  port: 9000
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/bank
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: root
+  jpa:
+    database: POSTGRESQL
+    show-sql : true
+    hibernate:
+      ddl-auto: update

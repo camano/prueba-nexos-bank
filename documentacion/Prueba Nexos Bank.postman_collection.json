@@ -1,0 +1,238 @@
+{
+	"info": {
+		"_postman_id": "33f8c460-399a-4c7f-9a76-5368f83f6509",
+		"name": "Prueba Nexos Bank",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14483371"
+	},
+	"item": [
+		{
+			"name": "CardRequest",
+			"item": [
+				{
+					"name": "Generar numero tarjeta",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9000/api/card/123456/number",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"api",
+								"card",
+								"123456",
+								"number"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Activar tarjeta",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cardId\":\"1234565104748952\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9000/api/card/enroll",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"api",
+								"card",
+								"enroll"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Bloquear Tarjeta",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9000/api/card/1234565104748952",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"api",
+								"card",
+								"1234565104748952"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Recargar Tarjeta",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cardId\":\"1234565104748952\",\r\n    \"balance\":8000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9000/api/card/balance",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"api",
+								"card",
+								"balance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Consultar Saldo",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cardId\":\"1234563648064098\",\r\n    \"balance\":\"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9000/api/card/balance/1234565104748952",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"api",
+								"card",
+								"balance",
+								"1234565104748952"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TransacionRequest",
+			"item": [
+				{
+					"name": "consultar transacion",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9000/api/transaction/5135189559",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"api",
+								"transaction",
+								"5135189559"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Transacion anulacion",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cardId\":\"1234565104748952\",\r\n    \"transactionId\":5768699258\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9000/api/transaction/anulation",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"api",
+								"transaction",
+								"anulation"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Transacion Compra",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cardId\":\"1234563648064098\",\r\n    \"price\":1000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9000/api/transaction/purchase",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"api",
+								"transaction",
+								"purchase"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

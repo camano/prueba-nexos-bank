@@ -1,0 +1,36 @@
+version: '3.9'
+
+services:
+  java_app:
+    container_name: prueba-nexos
+    image: bank:v1
+    build: .
+    ports:
+      - 9000:9000
+    depends_on:
+      - java_db
+    environment:
+        - SPRING_DATASOURCE_URL=jdbc:postgresql://java_db:5432/bank
+        - SPRING_DATASOURCE_USERNAME=postgres
+        - SPRING_DATASOURCE_PASSWORD=root
+        - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+        - SPRING_JPA_SHOW_SQL=true
+    networks:
+      - pruebaBank
+
+  java_db:
+    container_name: java_db
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      DATABASE_HOST: 127.0.0.1
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: bank
+    networks:
+      - pruebaBank
+
+networks:
+  pruebaBank:
+    driver: bridge
