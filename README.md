@@ -68,6 +68,8 @@ src/
 
 ---
 
+## Las pruebas Unitarias quedaron en un 80% de cobertura 
+
 ## 📊 Documentación Swagger
 
 - URL: [http://localhost:9000/swagger-ui/index.html](http://localhost:9000/swagger-ui/index.html)
