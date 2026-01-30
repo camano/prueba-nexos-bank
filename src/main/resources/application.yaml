@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: prueba-nexos
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/bank_inc
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: root
+  jpa:
+    database: POSTGRESQL
+    show-sql : true
+    hibernate:
+      ddl-auto: update
+
+server:
+  port: 9000
