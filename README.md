@@ -78,9 +78,8 @@ src/
 ---
 
 ## Levantar Proyecto con docker compose
+- Solo es ejecutar  docker-compose up y se ejecuta solo
 - En la raiz se encuentra un documento para poder ejecutarlo en local o en mi drive https://docs.google.com/document/d/1bX8BNSUdYfx942FsQkMcc90JYiq1tPbe24UESg3xids/edit?usp=sharing
-- mvn clean install -- ejecuta el jar**
-- docker-compose up -- se ejecuta las imagenes de la base de datos y app**
 - En la raiz del proyecto encuentran la coleccion de postman
 
 
