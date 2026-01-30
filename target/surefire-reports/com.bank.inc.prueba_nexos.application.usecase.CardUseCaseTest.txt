@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.bank.inc.prueba_nexos.application.usecase.CardUseCaseTest
+-------------------------------------------------------------------------------
+Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.009 s -- in com.bank.inc.prueba_nexos.application.usecase.CardUseCaseTest

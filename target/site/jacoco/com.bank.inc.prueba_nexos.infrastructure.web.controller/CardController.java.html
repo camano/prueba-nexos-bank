@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CardController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">prueba-nexos</a> &gt; <a href="index.source.html" class="el_package">com.bank.inc.prueba_nexos.infrastructure.web.controller</a> &gt; <span class="el_source">CardController.java</span></div><h1>CardController.java</h1><pre class="source lang-java linenums">package com.bank.inc.prueba_nexos.infrastructure.web.controller;
+
+import com.bank.inc.prueba_nexos.application.usecase.CardUseCase;
+import com.bank.inc.prueba_nexos.infrastructure.web.request.CardRequest;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
+
+@RestController
+@RequestMapping(&quot;/api/card&quot;)
+public class CardController {
+
+    private final CardUseCase cardUseCase;
+
+<span class="fc" id="L22">    public CardController(CardUseCase cardUseCase) {</span>
+<span class="fc" id="L23">        this.cardUseCase = cardUseCase;</span>
+<span class="fc" id="L24">    }</span>
+
+    @Operation(description = &quot;Generar la tarjeta con su respectivo cardId&quot;)
+    @GetMapping(&quot;/{productoId}/number&quot;)
+    public ResponseEntity&lt;?&gt; generateCardPort(@PathVariable String productoId) {
+<span class="nc" id="L29">        return new ResponseEntity&lt;&gt;(cardUseCase.issueCard(productoId), HttpStatus.CREATED);</span>
+    }
+
+    @Operation(description = &quot;Activar tarjeta&quot;)
+    @PostMapping(&quot;/enroll&quot;)
+    public ResponseEntity&lt;?&gt; activateCardPort(@RequestBody CardRequest card) {
+<span class="nc" id="L35">        return new ResponseEntity&lt;&gt;(cardUseCase.activateCard(card), HttpStatus.CREATED);</span>
+    }
+
+    @Operation(description = &quot;Se bloqueara la tarjeta &quot;)
+    @DeleteMapping(&quot;/{cardId}&quot;)
+    public ResponseEntity&lt;?&gt; blockCardPort(@PathVariable String cardId) {
+<span class="nc" id="L41">        return new ResponseEntity&lt;&gt;(cardUseCase.blockCard(cardId), HttpStatus.OK);</span>
+    }
+
+    @Operation(description = &quot;Recargar saldo &quot;)
+    @PostMapping(&quot;/balance&quot;)
+    public ResponseEntity&lt;?&gt; rechangeBalanceCardPort(@RequestBody CardRequest cardRequest) {
+<span class="nc" id="L47">        return new ResponseEntity&lt;&gt;(cardUseCase.recharge(cardRequest.cardId(),cardRequest.balance()), HttpStatus.CREATED);</span>
+    }
+
+    @Operation(description = &quot;Se consulta el saldo de la tarjeta &quot;)
+    @GetMapping(&quot;/balance/{cardId}&quot;)
+    public ResponseEntity&lt;?&gt; checkBalance(@PathVariable String cardId) {
+<span class="nc" id="L53">        return new ResponseEntity&lt;&gt;(cardUseCase.checkBalance(cardId), HttpStatus.OK);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

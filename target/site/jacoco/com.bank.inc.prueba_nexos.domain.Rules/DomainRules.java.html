@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DomainRules.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">prueba-nexos</a> &gt; <a href="index.source.html" class="el_package">com.bank.inc.prueba_nexos.domain.Rules</a> &gt; <span class="el_source">DomainRules.java</span></div><h1>DomainRules.java</h1><pre class="source lang-java linenums">package com.bank.inc.prueba_nexos.domain.Rules;
+
+import com.bank.inc.prueba_nexos.domain.enums.CardStatus;
+import com.bank.inc.prueba_nexos.domain.enums.Currency;
+import com.bank.inc.prueba_nexos.domain.models.Card;
+import com.bank.inc.prueba_nexos.domain.models.Transaction;
+import com.bank.inc.prueba_nexos.infrastructure.helper.excepciones.BusinessException;
+
+import java.math.BigDecimal;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+<span class="nc" id="L14">public class DomainRules {</span>
+
+    public static void validatePurchase(Card card, BigDecimal amount){
+
+<span class="fc bfc" id="L18" title="All 2 branches covered.">        if(card.getStatus() != CardStatus.ACTIVE)</span>
+<span class="fc" id="L19">            throw new BusinessException(&quot;Tarjeta no activa&quot;);</span>
+
+<span class="pc bpc" id="L21" title="1 of 2 branches missed.">        if(card.getStatus() == CardStatus.BLOCKED)</span>
+<span class="nc" id="L22">            throw new BusinessException(&quot;Tarjeta bloqueada&quot;);</span>
+
+<span class="fc bfc" id="L24" title="All 2 branches covered.">        if(LocalDate.now().isAfter(card.getExpirationDate()))</span>
+<span class="fc" id="L25">            throw new BusinessException(&quot;Tarjeta vencida&quot;);</span>
+
+<span class="fc bfc" id="L27" title="All 2 branches covered.">        if(card.getBalance().compareTo(amount) &lt; 0)</span>
+<span class="fc" id="L28">            throw new BusinessException(&quot;Saldo insuficiente&quot;);</span>
+
+<span class="fc bfc" id="L30" title="All 2 branches covered.">        if(card.getCurrency() != Currency.USD)</span>
+<span class="fc" id="L31">            throw new BusinessException(&quot;Solo USD permitido&quot;);</span>
+<span class="fc" id="L32">    }</span>
+
+    public static void validateActivation(Card card){
+<span class="fc bfc" id="L35" title="All 2 branches covered.">        if(card.getStatus() != CardStatus.INACTIVE)</span>
+<span class="fc" id="L36">            throw new BusinessException(&quot;La tarjeta no está inactiva&quot;);</span>
+<span class="fc" id="L37">    }</span>
+
+    public static void validateBlock(Card card){
+<span class="fc bfc" id="L40" title="All 2 branches covered.">        if(card.getStatus() != CardStatus.ACTIVE){</span>
+<span class="fc" id="L41">            throw new BusinessException(&quot;La tarjeta no puede ser bloqueada&quot;);</span>
+        }
+<span class="fc" id="L43">    }</span>
+
+    public static void validateRecharge(Card card){
+<span class="fc bfc" id="L46" title="All 2 branches covered.">        if(card.getStatus() != CardStatus.ACTIVE)</span>
+<span class="fc" id="L47">            throw new BusinessException(&quot;Tarjeta no activa&quot;);</span>
+<span class="fc" id="L48">    }</span>
+
+    public static void validateReverse(Transaction tx){
+<span class="fc bfc" id="L51" title="All 2 branches covered.">        if(tx.isReversed())</span>
+<span class="fc" id="L52">            throw new BusinessException(&quot;Ya anulada&quot;);</span>
+
+<span class="fc" id="L54">        long hours = Duration.between(tx.getDate(), LocalDateTime.now()).toHours();</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">        if(hours &gt; 24)</span>
+<span class="fc" id="L56">            throw new BusinessException(&quot;La transaccion supero las  24 horas&quot;);</span>
+<span class="fc" id="L57">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CardMapper.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">prueba-nexos</a> &gt; <a href="index.source.html" class="el_package">com.bank.inc.prueba_nexos.infrastructure.adapter.postgres.mapper</a> &gt; <span class="el_source">CardMapper.java</span></div><h1>CardMapper.java</h1><pre class="source lang-java linenums">package com.bank.inc.prueba_nexos.infrastructure.adapter.postgres.mapper;
+
+import com.bank.inc.prueba_nexos.domain.enums.CardStatus;
+import com.bank.inc.prueba_nexos.domain.enums.Currency;
+import com.bank.inc.prueba_nexos.domain.models.Card;
+import com.bank.inc.prueba_nexos.infrastructure.adapter.postgres.entity.CardEntity;
+import org.springframework.stereotype.Component;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Random;
+
+@Component
+<span class="fc" id="L15">public class CardMapper {</span>
+
+
+    public CardEntity toEntityAdd (String productId) {
+<span class="fc" id="L19">        String cardNumber = generateCardNumber(productId);</span>
+<span class="fc" id="L20">        return CardEntity.builder()</span>
+<span class="fc" id="L21">                .cardId(cardNumber)</span>
+<span class="fc" id="L22">                .productId(productId)</span>
+<span class="fc" id="L23">                .firstName(&quot;Jonathan&quot;)</span>
+<span class="fc" id="L24">                .lastName(&quot;romero&quot;)</span>
+<span class="fc" id="L25">                .expirationDate(LocalDate.now().plusYears(3))</span>
+<span class="fc" id="L26">                .balance(BigDecimal.ZERO)</span>
+<span class="fc" id="L27">                .status(CardStatus.INACTIVE)</span>
+<span class="fc" id="L28">                .currency(Currency.USD)</span>
+<span class="fc" id="L29">                .createdAt(LocalDateTime.now())</span>
+<span class="fc" id="L30">                .build();</span>
+    }
+
+
+    public CardEntity toEntity (Card card) {
+<span class="fc" id="L35">        return CardEntity.builder()</span>
+<span class="fc" id="L36">                .cardId(card.getCardId())</span>
+<span class="fc" id="L37">                .productId(card.getProductId())</span>
+<span class="fc" id="L38">                .firstName(card.getFirstName())</span>
+<span class="fc" id="L39">                .lastName(card.getLastName())</span>
+<span class="fc" id="L40">                .expirationDate(card.getExpirationDate())</span>
+<span class="fc" id="L41">                .balance(card.getBalance())</span>
+<span class="fc" id="L42">                .status(card.getStatus())</span>
+<span class="fc" id="L43">                .currency(card.getCurrency())</span>
+<span class="fc" id="L44">                .createdAt(LocalDateTime.now())</span>
+<span class="fc" id="L45">                .build();</span>
+    }
+
+    public Card toDomain(CardEntity cardEntity) {
+
+<span class="fc" id="L50">        return Card.builder()</span>
+<span class="fc" id="L51">                .cardId(cardEntity.getCardId())</span>
+<span class="fc" id="L52">                .productId(cardEntity.getProductId())</span>
+<span class="fc" id="L53">                .firstName(cardEntity.getFirstName())</span>
+<span class="fc" id="L54">                .lastName(cardEntity.getLastName())</span>
+<span class="fc" id="L55">                .expirationDate(cardEntity.getExpirationDate())</span>
+<span class="fc" id="L56">                .balance(cardEntity.getBalance())</span>
+<span class="fc" id="L57">                .status(cardEntity.getStatus())</span>
+<span class="fc" id="L58">                .currency(cardEntity.getCurrency())</span>
+<span class="fc" id="L59">                .build();</span>
+    }
+
+
+    private String generateCardNumber(String productId) {
+<span class="fc" id="L64">        String random = String.format(&quot;%010d&quot;, new Random().nextLong(1_000_000_0000L));</span>
+<span class="fc" id="L65">        return productId + random;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

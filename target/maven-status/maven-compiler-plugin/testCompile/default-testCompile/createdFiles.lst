@@ -1,0 +1,6 @@
+com\bank\inc\prueba_nexos\application\usecase\TransactionUseCaseTest.class
+com\bank\inc\prueba_nexos\domain\Rules\DomainRulesTest.class
+com\bank\inc\prueba_nexos\infrastructure\adapter\postgres\mapper\CardMapperTest.class
+com\bank\inc\prueba_nexos\infrastructure\adapter\postgres\mapper\TransactionMapperTest.class
+com\bank\inc\prueba_nexos\PruebaNexosApplicationTests.class
+com\bank\inc\prueba_nexos\application\usecase\CardUseCaseTest.class

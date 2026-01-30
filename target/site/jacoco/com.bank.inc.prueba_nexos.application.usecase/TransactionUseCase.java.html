@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TransactionUseCase.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">prueba-nexos</a> &gt; <a href="index.source.html" class="el_package">com.bank.inc.prueba_nexos.application.usecase</a> &gt; <span class="el_source">TransactionUseCase.java</span></div><h1>TransactionUseCase.java</h1><pre class="source lang-java linenums">package com.bank.inc.prueba_nexos.application.usecase;
+
+import com.bank.inc.prueba_nexos.domain.Rules.DomainRules;
+import com.bank.inc.prueba_nexos.domain.models.Card;
+import com.bank.inc.prueba_nexos.domain.models.Transaction;
+import com.bank.inc.prueba_nexos.domain.port.CardRepositoryPort;
+import com.bank.inc.prueba_nexos.domain.port.TransactionRepositoryPort;
+import com.bank.inc.prueba_nexos.infrastructure.web.request.TransactionAnulationRequest;
+import com.bank.inc.prueba_nexos.infrastructure.web.request.TransactionRequest;
+import org.springframework.stereotype.Service;
+
+@Service
+public class TransactionUseCase {
+
+    private final TransactionRepositoryPort transactionRepositoryPort;
+    private final CardRepositoryPort cardRepositoryPort;
+
+<span class="fc" id="L18">    public TransactionUseCase(TransactionRepositoryPort transactionRepositoryPort, CardRepositoryPort cardRepositoryPort) {</span>
+<span class="fc" id="L19">        this.transactionRepositoryPort = transactionRepositoryPort;</span>
+<span class="fc" id="L20">        this.cardRepositoryPort = cardRepositoryPort;</span>
+<span class="fc" id="L21">    }</span>
+
+    public Transaction purchase(TransactionRequest transactionRequest){
+
+<span class="fc" id="L25">        Card card = cardRepositoryPort.findByCardId(transactionRequest.cardId());</span>
+<span class="fc" id="L26">        DomainRules.validatePurchase(card,transactionRequest.price());</span>
+
+<span class="fc" id="L28">        card.setBalance(card.getBalance().subtract(transactionRequest.price()));</span>
+<span class="fc" id="L29">        cardRepositoryPort.activate(card);</span>
+
+<span class="fc" id="L31">        return transactionRepositoryPort.create(card,transactionRequest.price());</span>
+    }
+
+    public Transaction findByTransation(Long transacionId) {
+<span class="fc" id="L35">        return transactionRepositoryPort.findById(transacionId);</span>
+    }
+
+    public Transaction reverseTransaction(TransactionAnulationRequest transaction){
+<span class="fc" id="L39">        Transaction tx = transactionRepositoryPort.findById(transaction.transactionId());</span>
+<span class="fc" id="L40">        DomainRules.validateReverse(tx);</span>
+<span class="fc" id="L41">        Card card = cardRepositoryPort.findByCardId(transaction.cardId());</span>
+<span class="fc" id="L42">        card.setBalance(card.getBalance().add(tx.getAmount()));</span>
+<span class="fc" id="L43">        tx.setReversed(true);</span>
+<span class="fc" id="L44">        cardRepositoryPort.activate(card);</span>
+<span class="fc" id="L45">        return transactionRepositoryPort.reverse(tx);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

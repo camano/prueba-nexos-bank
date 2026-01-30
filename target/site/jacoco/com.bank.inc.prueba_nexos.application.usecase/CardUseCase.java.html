@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CardUseCase.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">prueba-nexos</a> &gt; <a href="index.source.html" class="el_package">com.bank.inc.prueba_nexos.application.usecase</a> &gt; <span class="el_source">CardUseCase.java</span></div><h1>CardUseCase.java</h1><pre class="source lang-java linenums">package com.bank.inc.prueba_nexos.application.usecase;
+
+import com.bank.inc.prueba_nexos.domain.Rules.DomainRules;
+import com.bank.inc.prueba_nexos.domain.enums.CardStatus;
+import com.bank.inc.prueba_nexos.domain.models.Card;
+import com.bank.inc.prueba_nexos.domain.port.CardRepositoryPort;
+import com.bank.inc.prueba_nexos.infrastructure.web.request.CardRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import java.math.BigDecimal;
+
+@Service
+public class CardUseCase {
+
+    private final CardRepositoryPort cardRepositoryPort;
+
+<span class="fc" id="L21">    public CardUseCase(CardRepositoryPort cardRepositoryPort) {</span>
+<span class="fc" id="L22">        this.cardRepositoryPort = cardRepositoryPort;</span>
+<span class="fc" id="L23">    }</span>
+
+    public Card issueCard(String productoId){
+<span class="fc" id="L26">        return cardRepositoryPort.generateCard(productoId);</span>
+    }
+
+
+    public Card activateCard(CardRequest cardRequest){
+<span class="fc" id="L31">        Card card = cardRepositoryPort.findByCardId(cardRequest.cardId());</span>
+<span class="fc" id="L32">       DomainRules.validateActivation(card);</span>
+<span class="fc" id="L33">        card.setStatus(CardStatus.ACTIVE);</span>
+<span class="fc" id="L34">        return cardRepositoryPort.activate(card);</span>
+    }
+
+    public Card blockCard(String cardId){
+<span class="fc" id="L38">        Card card = cardRepositoryPort.findByCardId(cardId);</span>
+<span class="fc" id="L39">        DomainRules.validateBlock(card);</span>
+<span class="fc" id="L40">        card.setStatus(CardStatus.BLOCKED);</span>
+<span class="fc" id="L41">        return cardRepositoryPort.activate(card);</span>
+    }
+
+    public Card recharge(String cardId, BigDecimal monto){
+<span class="fc" id="L45">        Card card = cardRepositoryPort.findByCardId(cardId);</span>
+<span class="fc" id="L46">        DomainRules.validateRecharge(card);</span>
+<span class="fc" id="L47">        card.setBalance(card.getBalance().add(monto));</span>
+<span class="fc" id="L48">        return cardRepositoryPort.activate(card);</span>
+    }
+
+    public Card checkBalance(String cardId) {
+<span class="fc" id="L52">        return cardRepositoryPort.findByCardId(cardId);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

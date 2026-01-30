@@ -1,0 +1,6 @@
+D:\DEV\prueba-nexos\src\test\java\com\bank\inc\prueba_nexos\application\usecase\CardUseCaseTest.java
+D:\DEV\prueba-nexos\src\test\java\com\bank\inc\prueba_nexos\application\usecase\TransactionUseCaseTest.java
+D:\DEV\prueba-nexos\src\test\java\com\bank\inc\prueba_nexos\domain\Rules\DomainRulesTest.java
+D:\DEV\prueba-nexos\src\test\java\com\bank\inc\prueba_nexos\infrastructure\adapter\postgres\mapper\CardMapperTest.java
+D:\DEV\prueba-nexos\src\test\java\com\bank\inc\prueba_nexos\infrastructure\adapter\postgres\mapper\TransactionMapperTest.java
+D:\DEV\prueba-nexos\src\test\java\com\bank\inc\prueba_nexos\PruebaNexosApplicationTests.java
