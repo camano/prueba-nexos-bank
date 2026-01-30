@@ -1,0 +1,38 @@
+version: '3.9'
+
+services:
+  postgres:
+    container_name: bank_inc
+    restart: always
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: bank_inc
+    networks:
+      - nexos
+
+
+  app:
+    container_name: prueba-nexos
+    image: nexos:v1
+    build: .
+    ports:
+      - 9000:9000
+    depends_on:
+      - postgres
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/bank_inc
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_JPA_SHOW_SQL=true
+
+    networks:
+      - nexos
+
+networks:
+  nexos:
+    driver: bridge

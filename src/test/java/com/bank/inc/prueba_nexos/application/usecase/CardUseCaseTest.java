@@ -31,7 +31,6 @@ class CardUseCaseTest {
     @Test
     void shouldIssueCardSuccessfully() {
 
-        // ---------- Arrange ----------
         String productId = "123456";
 
         Card card = new Card();
@@ -45,10 +44,8 @@ class CardUseCaseTest {
         when(cardRepositoryPort.generateCard(productId))
                 .thenReturn(card);
 
-        // ---------- Act ----------
         Card result = cardUseCase.issueCard(productId);
 
-        // ---------- Assert ----------
         assertNotNull(result);
         assertEquals(productId, result.getProductId());
         assertEquals("1234567890123456", result.getCardId());
@@ -62,7 +59,6 @@ class CardUseCaseTest {
     @Test
     void shouldActivateCardSuccessfully() {
 
-        // ---------- Arrange ----------
         String cardId = "1234567890123456";
         BigDecimal balance = new BigDecimal("20");
 
@@ -70,7 +66,7 @@ class CardUseCaseTest {
 
         Card card = new Card();
         card.setCardId(cardId);
-        card.setStatus(CardStatus.INACTIVE); // condición válida
+        card.setStatus(CardStatus.INACTIVE);
         card.setBalance(BigDecimal.ZERO);
         card.setCurrency(Currency.USD);
         card.setExpirationDate(LocalDate.now().plusYears(3));
@@ -81,15 +77,12 @@ class CardUseCaseTest {
         when(cardRepositoryPort.activate(any(Card.class)))
                 .thenAnswer(i -> i.getArgument(0));
 
-        // ---------- Act ----------
         Card result = cardUseCase.activateCard(cardRequest);
 
-        // ---------- Assert ----------
         assertNotNull(result);
         assertEquals(CardStatus.ACTIVE, result.getStatus());
         assertEquals(cardId, result.getCardId());
 
-        // Verificaciones
         verify(cardRepositoryPort).findByCardId(cardId);
         verify(cardRepositoryPort).activate(card);
     }
@@ -168,7 +161,7 @@ CardRequest cardRequest = new CardRequest(cardId,BigDecimal.ZERO);
     @Test
     void shouldRechargeCardSuccessfully() {
 
-        // ---------- Arrange ----------
+
         String cardId = "1234567890123456";
         BigDecimal monto = new BigDecimal("50");
 
@@ -185,16 +178,13 @@ CardRequest cardRequest = new CardRequest(cardId,BigDecimal.ZERO);
         when(cardRepositoryPort.activate(any(Card.class)))
                 .thenAnswer(i -> i.getArgument(0));
 
-        // ---------- Act ----------
         Card result = cardUseCase.recharge(cardId, monto);
 
-        // ---------- Assert ----------
         assertNotNull(result);
         assertEquals(new BigDecimal("150"), result.getBalance());
         assertEquals(CardStatus.ACTIVE, result.getStatus());
         assertEquals(cardId, result.getCardId());
 
-        // Verificaciones
         verify(cardRepositoryPort).findByCardId(cardId);
         verify(cardRepositoryPort).activate(card);
     }
@@ -224,7 +214,6 @@ CardRequest cardRequest = new CardRequest(cardId,BigDecimal.ZERO);
     @Test
     void shouldReturnCardBalanceSuccessfully() {
 
-        // ---------- Arrange ----------
         String cardId = "1234567890123456";
 
         Card card = new Card();
@@ -236,16 +225,13 @@ CardRequest cardRequest = new CardRequest(cardId,BigDecimal.ZERO);
         when(cardRepositoryPort.findByCardId(cardId))
                 .thenReturn(card);
 
-        // ---------- Act ----------
         Card result = cardUseCase.checkBalance(cardId);
 
-        // ---------- Assert ----------
         assertNotNull(result);
         assertEquals(cardId, result.getCardId());
         assertEquals(new BigDecimal("250"), result.getBalance());
         assertEquals(CardStatus.ACTIVE, result.getStatus());
 
-        // Verificación
         verify(cardRepositoryPort).findByCardId(cardId);
     }
 

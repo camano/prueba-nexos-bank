@@ -11,17 +11,14 @@ import com.bank.inc.prueba_nexos.infrastructure.helper.excepciones.BusinessExcep
 import com.bank.inc.prueba_nexos.infrastructure.web.request.TransactionAnulationRequest;
 import com.bank.inc.prueba_nexos.infrastructure.web.request.TransactionRequest;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestFactory;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -67,7 +64,6 @@ class TransactionUseCaseTest {
     @Test
     void shouldMakePurchaseSuccessfully() {
 
-        // ---------- Arrange ----------
         String cardId = "1234567890123456";
         BigDecimal price = new BigDecimal("20");
 
@@ -89,18 +85,15 @@ class TransactionUseCaseTest {
         when(transactionRepositoryPort.create(any(Card.class), eq(price)))
                 .thenReturn(tx);
 
-        // ---------- Act ----------
         Transaction result = transactionUseCase.purchase(request);
 
-        // ---------- Assert ----------
+
         assertNotNull(result);
         assertEquals(1L, result.getTransactionId());
         assertEquals(price, result.getAmount());
 
-        // Balance actualizado correctamente
         assertEquals(new BigDecimal("80"), card.getBalance());
 
-        // Verificaciones de interacción
         verify(cardRepositoryPort).findByCardId(cardId);
         verify(cardRepositoryPort).activate(card);
         verify(transactionRepositoryPort).create(card, price);
@@ -111,7 +104,6 @@ class TransactionUseCaseTest {
     @Test
     void shouldFindTransactionByIdSuccessfully() {
 
-        // ---------- Arrange ----------
         Long transactionId = 1L;
 
         Transaction tx = new Transaction();
@@ -121,22 +113,18 @@ class TransactionUseCaseTest {
         when(transactionRepositoryPort.findById(transactionId))
                 .thenReturn(tx);
 
-        // ---------- Act ----------
         Transaction result = transactionUseCase.findByTransation(transactionId);
 
-        // ---------- Assert ----------
         assertNotNull(result);
         assertEquals(transactionId, result.getTransactionId());
         assertEquals(new BigDecimal("50"), result.getAmount());
 
-        // Verificación de interacción
         verify(transactionRepositoryPort).findById(transactionId);
     }
 
     @Test
     void shouldReverseTransactionSuccessfully() {
 
-        // ---------- Arrange ----------
         Long txId = 1L;
         String cardId = "1234567890123456";
         BigDecimal amount = new BigDecimal("50");
@@ -162,17 +150,13 @@ class TransactionUseCaseTest {
         when(transactionRepositoryPort.reverse(any(Transaction.class)))
                 .thenAnswer(i -> i.getArgument(0));
 
-        // ---------- Act ----------
         Transaction result = transactionUseCase.reverseTransaction(request);
 
-        // ---------- Assert ----------
         assertNotNull(result);
         assertTrue(result.isReversed());
 
-        // saldo revertido correctamente
         assertEquals(new BigDecimal("150"), card.getBalance());
 
-        // verificaciones
         verify(transactionRepositoryPort).findById(txId);
         verify(cardRepositoryPort).findByCardId(cardId);
         verify(cardRepositoryPort).activate(card);
